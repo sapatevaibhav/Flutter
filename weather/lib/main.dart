@@ -9,6 +9,7 @@ void main() {
       '/': (context) => Loading(),
       "/home": (context) => Home(),
       "/loca": (context) => Location(),
+      "/loading": (context) => Loading(),
     },
   ));
 }

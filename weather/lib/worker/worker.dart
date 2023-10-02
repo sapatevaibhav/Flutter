@@ -2,17 +2,21 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class worker {
-  String location = "Error finding location!",
-      temperature = "Error finding location!",
-      humidity = "Error finding location!",
-      airSpeed = "Error finding location!",
-      weatherr = "Error finding location!",
-      description = "Error finding location!";
+  // Initialization of variables which stores the important data we have to use further
+  String location = "Error!",
+      temperature = "N/A",
+      humidity = "N/A",
+      airSpeed = "N/A",
+      weatherr = "Can't find data ",
+      icon = "03d",
+      description = "Can't find data ";
+
+  // Get the city location such that it can be used to get weather data from API
   worker({required this.location}) {
-    location = this.location;
+    location = location;
   }
 
-  //   dynamic getTime() async {
+//   dynamic getTime() async {
 //     // Get API data
 //     // To fetch time from worldtimeapi
 
@@ -40,21 +44,27 @@ class worker {
 
         // Fetching temperature, humidity and air speed
         Map temp = weather1['main'];
-        temperature = temp['temp'].toString();
+        temperature = (temp['temp'] - 273.15)
+            .toStringAsFixed(1); // convert kelvin to celcius
 
         Map wind = weather1['wind'];
-        airSpeed = wind['speed'].toString();
+        airSpeed = (wind['speed'] / 0.2777778)
+            .toStringAsFixed(1); // convert mpsec to kmph
         humidity = temp['humidity'].toString();
 
         //Fetching description
         weatherr = weatherMainData['main'];
         description = weatherMainData['description'];
+
+        // Fetch weather type icon
+        icon = weatherMainData["icon"].toString();
       } else {
-        print('HTTP Error: ${weather.statusCode}');
+        // Just pass the else block you dumb
       }
     } catch (e) {
       // Handle the error gracefully
-      print('Error occurred: $e');
+      // That means pass this block too
     }
   }
 }
+
